@@ -29,8 +29,7 @@ export default class NoteCard extends Component {
         else{ firebase.database() 
           .ref('notes') 
         .child(this.state.note_id) .child('likes') .set(firebase.database.ServerValue.increment(1)) 
-        this.setState({likes: this.state.likes+=1 , is_liked:true}) }
-    };
+        this.setState({likes: this.state.likes+=1 , is_liked:true}) }};
 
     fetchUser = () => {
         let theme;
@@ -75,10 +74,30 @@ export default class NoteCard extends Component {
                         </Text>
                     </View>
                     <View style={styles.actionContainer}>
-                        <View style={styles.likeButton}>
-                            <Ionicons name={"heart"} size={RFValue(30)} color={this.state.light_theme ? "black" : "white"} />
-                            <Text style={this.state.light_theme ? styles.likeTextLight : styles.likeText}>12k</Text>
-                        </View>
+                        <TouchableOpacity
+                            style={
+                            this.state.is_liked
+                             ? styles.likeButtonLiked
+                                : styles.likeButtonDisliked
+                            }
+                         onPress={() => this.likeAction()}
+                        >
+                        <Ionicons
+                            name={"heart"}
+                            size={RFValue(30)}
+                            color={this.state.light_theme ? "black" : "white"}
+                        />
+
+                        <Text
+                            style={
+                                this.state.light_theme
+                                ? styles.likeTextLight
+                                : styles.likeText
+                              }
+                        >
+                            {this.state.likes}
+                        </Text>
+                     </TouchableOpacity>
                     </View>
                 </View>
             </TouchableOpacity>
